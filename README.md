@@ -24,8 +24,6 @@ Um zu kompilieren und auszuführen, müssen Sie Go auf Ihrem Computer installier
 ## Installation
 
 ```bash
-go install github.com/kvnschmu/temporary-mailer```
+go install github.com/kvnschmu/temporary-mailer
 
-```Ausführen```
-
-```temporary-mailer```
+temporary-mailer
