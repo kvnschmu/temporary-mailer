@@ -1,4 +1,4 @@
-module github.com/rumourscape/temporary-mailer
+module github.com/kvnschmu/temporary-mailer
 
 go 1.19
 
