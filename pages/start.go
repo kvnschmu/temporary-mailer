@@ -10,8 +10,8 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
-	"github.com/rumourscape/temporary-mailer/components"
-	"github.com/rumourscape/temporary-mailer/mailer"
+	"github.com/kvnschmu/temporary-mailer/components"
+	"github.com/kvnschmu/temporary-mailer/mailer"
 )
 
 var gap = layout.NewSpacer()
@@ -30,23 +30,23 @@ func Start(win *fyne.Window) *fyne.Container {
 
 		if login {
 			// Login successful
-			log.Println("Login successful")
+			log.Println("Anmeldung erfolgreich")
 			SetPage(win, "dashboard")
 		} else {
 			// Login failed
-			log.Println("Login failed")
-			errorPopup = components.LoginError(&mainCanvas, "Invalid Email or Password")
+			log.Println("Anmeldung fehlgeschlagen")
+			errorPopup = components.LoginError(&mainCanvas, "Ungültige E-Mail oder Passwort")
 			errorPopup.Show()
 		}
 	}
 
-	title := canvas.NewText("Temporary Mailer", color.White)
+	title := canvas.NewText("Temporärer Maildienst", color.White)
 	title.Alignment = fyne.TextAlignCenter
 	title.TextStyle.Bold = true
 	title.TextSize = 30
 	title.Resize(fyne.NewSize(400, 50))
 
-	newAccount := widget.NewButton("Create a new Account", func() {
+	newAccount := widget.NewButton("Neues Konto erstellen", func() {
 		err := mailer.NewAccount()
 		if err != nil {
 			errorPopup = components.LoginError(&mainCanvas, err.Error())
@@ -56,8 +56,8 @@ func Start(win *fyne.Window) *fyne.Container {
 	})
 	newAccount.Importance = widget.HighImportance
 
-	oldAccount := widget.NewButton("Login with an existing Account", func() {})
-	oldAccount.OnTapped = func() { form.Show(); oldAccount.Hide(); newAccount.SetText("Create a new Account instead") }
+	oldAccount := widget.NewButton("Mit einem bestehenden Konto anmelden", func() {})
+	oldAccount.OnTapped = func() { form.Show(); oldAccount.Hide(); newAccount.SetText("Stattdessen ein neues Konto erstellen") }
 
 	vContainer := container.NewVBox(title, gap, form, oldAccount, newAccount, gap)
 	vContainer.Resize(fyne.NewSize(400, 400))

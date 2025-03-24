@@ -17,12 +17,12 @@ import (
 	"github.com/donovanhide/eventsource"
 	"github.com/felixstrobel/mailtm"
 
-	"github.com/rumourscape/temporary-mailer/mailer"
+	"github.com/kvnschmu/temporary-mailer/mailer"
 )
 
 func Dashboard(win *fyne.Window) fyne.CanvasObject {
 
-	title := canvas.NewText("Inbox", color.White)
+	title := canvas.NewText("Posteingang", color.White)
 	title.Alignment = fyne.TextAlignCenter
 	title.TextStyle.Bold = true
 	title.TextSize = 20
@@ -46,12 +46,12 @@ func Dashboard(win *fyne.Window) fyne.CanvasObject {
 
 	popup := DeletePopUp(win)
 
-	del := widget.NewButtonWithIcon("Delete", theme.DeleteIcon(), func() { popup.Show() })
+	del := widget.NewButtonWithIcon("Löschen", theme.DeleteIcon(), func() { popup.Show() })
 	del.Importance = widget.DangerImportance
 
-	refresh := widget.NewButtonWithIcon("Refresh", theme.ViewRefreshIcon(), func() { setMesCon(mesCon) })
+	refresh := widget.NewButtonWithIcon("Aktualisieren", theme.ViewRefreshIcon(), func() { setMesCon(mesCon) })
 
-	logout := widget.NewButtonWithIcon("Logout", theme.LogoutIcon(), func() { mailer.Logout(); SetPage(win, "start") })
+	logout := widget.NewButtonWithIcon("Abmelden", theme.LogoutIcon(), func() { mailer.Logout(); SetPage(win, "start") })
 	logout.Importance = widget.WarningImportance
 
 	trailer := container.NewHBox(container.NewCenter(refresh), container.NewCenter(logout), container.NewCenter(del))
@@ -82,7 +82,7 @@ func sse(mesCon *fyne.Container) {
 	sseUrl.RawQuery = params.Encode()
 
 	request, err := http.NewRequest("GET", sseUrl.String(), nil)
-	request.Header.Add("Authorization", "Bearer "+mailer.GetToken())
+	request.Header.Add("Autorisierung", "Bearer "+mailer.GetToken())
 
 	if err != nil {
 		log.Println(err)
@@ -111,7 +111,7 @@ func sse(mesCon *fyne.Container) {
 
 			card := widget.NewCard(
 				message.Subject,
-				message.From.Address+"\t"+message.CreatedAt.Format("2006-01-02 15:04:05"),
+				message.From.Address+"\t"+message.CreatedAt.Format("2024-10-16 18:06:12"),
 				widget.NewLabel(mailer.GetText(message.ID)),
 			)
 			//Insert card at the top
@@ -125,7 +125,7 @@ func sse(mesCon *fyne.Container) {
 }
 
 func setMesCon(mesCon *fyne.Container) {
-	log.Println("Fetching messages...")
+	log.Println("Nachrichten werden abgerufen...")
 
 	page := 1
 	messages, err := mailer.GetMessages(page)
@@ -134,7 +134,7 @@ func setMesCon(mesCon *fyne.Container) {
 	}
 
 	if len(messages) == 0 {
-		emptyLabel := canvas.NewText("No messages found", color.White)
+		emptyLabel := canvas.NewText("Keine Nachrichten gefunden", color.White)
 		emptyLabel.Alignment = fyne.TextAlignCenter
 		emptyLabel.TextStyle.Bold = true
 		emptyLabel.TextSize = 20
@@ -148,7 +148,7 @@ func setMesCon(mesCon *fyne.Container) {
 		for _, message := range messages {
 			card := widget.NewCard(
 				message.Subject,
-				message.From.Address+"\t"+message.CreatedAt.Format("2006-01-02 15:04:05"),
+				message.From.Address+"\t"+message.CreatedAt.Format("2024-10-16 18:06:12"),
 				widget.NewLabel(mailer.GetText(message.ID)),
 			)
 			mesCon.Add(card)
@@ -162,7 +162,7 @@ func DeletePopUp(win *fyne.Window) *widget.PopUp {
 	popup.Move(fyne.NewPos(200, 400))
 	popup.Hide()
 
-	label := widget.NewLabel("Are you sure you want to delete your account?")
+	label := widget.NewLabel("Bist du sicher, dass du dein Konto löschen möchtest?")
 	label.Alignment = fyne.TextAlignCenter
 
 	confirm := widget.NewButton("YES", func() { go mailer.DeleteAccount(); popup.Hide(); SetPage(win, "start") })

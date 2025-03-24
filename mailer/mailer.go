@@ -22,13 +22,13 @@ func Login(email, password string) bool {
 func NewAccount() error {
 	_, err := client.CreateAccount()
 	if err != nil {
-		log.Println("Error creating Account: " + err.Error())
+		log.Println("Fehler beim Erstellen des Kontos: " + err.Error())
 		return err
 	}
 
 	_, err = client.GetAuthToken()
 	if err != nil {
-		log.Println("Error getting AuthToken: " + err.Error())
+		log.Println("Fehler beim Abrufen des Authentifizierungstokens: " + err.Error())
 		return err
 	}
 
@@ -62,6 +62,6 @@ func Logout() {
 func DeleteAccount() {
 	err := client.DeleteAccountByID(client.Account.ID)
 	if err != nil {
-		log.Println("Error deleting Account: " + err.Error())
+		log.Println("Fehler beim Löschen des Kontos: " + err.Error())
 	}
 }

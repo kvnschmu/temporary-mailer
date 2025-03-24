@@ -6,7 +6,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 
-	"github.com/rumourscape/temporary-mailer/assets"
+	"github.com/kvnschmu/temporary-mailer/assets"
 )
 
 var res = fyne.NewStaticResource("intro.jpg", assets.ImageContent)
